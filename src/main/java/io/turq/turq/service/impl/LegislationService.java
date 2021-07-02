@@ -76,6 +76,7 @@ public class LegislationService implements ILegislationService {
         LegislationEntity retLegislation = null;
         String authorEmail = jwtTokenUtil.getSubject(token);
         System.out.println(req.getExceptions());
+        System.out.println("hi");
         try {
             LegislationEntity legislation = this.findById(id);
             if (legislation == null) {

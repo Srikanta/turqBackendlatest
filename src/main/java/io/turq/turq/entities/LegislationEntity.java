@@ -13,16 +13,9 @@ import javax.persistence.*;
 @Table(name = "legislation")
 public class LegislationEntity {
 
-    public LegislationEntity(String title, String chapter, String section, String accomplishes, String terms, String purpose, String provisions, String exceptions, String other, UserEntity author, ContestEntity contest) {
+    public LegislationEntity(String title, String ref, UserEntity author, ContestEntity contest) {
         this.title = title;
-        this.chapter = chapter;
-        this.section = section;
-        this.accomplishes = accomplishes;
-        this.terms = terms;
-        this.purpose = purpose;
-        this.provisions = provisions;
-        this.exceptions = exceptions;
-        this.other = other;
+        this.ref = ref;
         this.author = author;
         this.contest = contest;
     }
@@ -31,14 +24,8 @@ public class LegislationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
-    private String chapter;
-    private String section;
-    private String accomplishes;
-    private String terms;
-    private String purpose;
-    private String provisions;
-    private String exceptions;
-    private String other;
+    private String ref;
+    
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "legislation_author_id_fkey"))
     private UserEntity author;

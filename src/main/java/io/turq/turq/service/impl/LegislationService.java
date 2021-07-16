@@ -62,7 +62,8 @@ public class LegislationService implements ILegislationService {
         try {
             UserEntity author = userService.findByEmail(authorEmail);
             ContestEntity contest = contestService.findById(req.getContestId());
-            LegislationEntity legislation = new LegislationEntity(req.getTitle(), req.getChapter(), req.getSection(), req.getAccomplishes(), req.getTerms(), req.getPurpose(), req.getProvisions(), req.getExceptions(), req.getOther(), author, contest);
+            System.out.println("createLegislation");
+            LegislationEntity legislation = new LegislationEntity(req.getTitle(), req.getRef(), author, contest);
             retLegislation = repository.save(legislation);
         } catch (DataIntegrityViolationException e){
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());
@@ -75,8 +76,8 @@ public class LegislationService implements ILegislationService {
     public LegislationEntity updateLegislation(LegislationRequest req, String token, long id) {
         LegislationEntity retLegislation = null;
         String authorEmail = jwtTokenUtil.getSubject(token);
-        System.out.println(req.getExceptions());
-        System.out.println("hi");
+        //System.out.println(req.getExceptions());
+        System.out.println("updateLegislation");
         try {
             LegislationEntity legislation = this.findById(id);
             if (legislation == null) {
@@ -84,7 +85,7 @@ public class LegislationService implements ILegislationService {
             } else if (!legislation.getAuthor().getEmail().equalsIgnoreCase(authorEmail)) {
                 throw new ForbiddenException(APIErrors.LEGISLATION_UPDATE_PERMISSION);
             } else {
-                retLegislation = repository.save(new LegislationEntity(legislation.getId(), req.getTitle(), req.getChapter(), req.getSection(), req.getAccomplishes(), req.getTerms(), req.getPurpose(), req.getProvisions(), req.getExceptions(), req.getOther(), legislation.getAuthor(), legislation.getContest()));
+                retLegislation = repository.save(new LegislationEntity(req.getTitle(), req.getRef(), legislation.getAuthor(), legislation.getContest() ));
             }
         } catch (DataIntegrityViolationException e){
             System.out.println("PSQL Data Integrity Violation Exception: " + e.getMessage());
@@ -96,6 +97,7 @@ public class LegislationService implements ILegislationService {
     @Override
     public void deleteLegislation(String token, long id) {
         String authorEmail = jwtTokenUtil.getSubject(token);
+        System.out.println("deleteLegislation");
         try {
             LegislationEntity legislation = this.findById(id);
             if (legislation == null) {

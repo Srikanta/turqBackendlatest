@@ -9,13 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LegislationRequest {
     private String title;
-    private String chapter;
-    private String section;
-    private String accomplishes;
-    private String terms;
-    private String purpose;
-    private String provisions;
-    private String exceptions;
-    private String other;
+    private String ref;
     private long contestId;
 }
